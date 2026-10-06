@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>K-Fold ML Lab</title>
+
+
+    <!-- Google Font -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+
+    <!-- Main CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     NAVBAR
+========================================= -->
+
+<nav class="navbar">
+
+    <div class="nav-container">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                ML
+            </div>
+
+            <div>
+
+                <h2>
+                    K-Fold ML Lab
+                </h2>
+
+                <span>
+                    Machine Learning Evaluation
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-status">
+
+            <span class="status-dot"></span>
+
+            System Ready
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================
+     MAIN CONTAINER
+========================================= -->
+
+<main class="container">
+
+
+<!-- =========================================
+     HERO SECTION
+========================================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="hero-label">
+            MACHINE LEARNING LAB
+        </span>
+
+        <h1>
+
+            K-Fold Cross-Validation
+
+            <br>
+
+            <span>ML Evaluator</span>
+
+        </h1>
+
+        <p>
+
+            Compare multiple machine learning models
+            using reliable K-Fold cross-validation and
+            analyze their performance through interactive
+            visualizations.
+
+        </p>
+
+    </div>
+
+
+    <div class="hero-badge">
+
+        <div class="badge-number">
+            K
+        </div>
+
+        <div>
+
+            <strong>
+                Cross Validation
+            </strong>
+
+            <span>
+                Reliable Model Evaluation
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     DATASET INFORMATION
+========================================= -->
+
+<section class="info-grid">
+
+
+    <div class="info-card">
+
+        <div class="info-icon">
+            D
+        </div>
+
+        <div>
+
+            <span>
+                DATASET
+            </span>
+
+            <h3>
+                {{ dataset.name }}
+            </h3>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="info-card">
+
+        <div class="info-icon">
+            N
+        </div>
+
+        <div>
+
+            <span>
+                SAMPLES
+            </span>
+
+            <h3>
+                {{ dataset.samples }}
+            </h3>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="info-card">
+
+        <div class="info-icon">
+            F
+        </div>
+
+        <div>
+
+            <span>
+                FEATURES
+            </span>
+
+            <h3>
+                {{ dataset.features }}
+            </h3>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="info-card">
+
+        <div class="info-icon">
+            C
+        </div>
+
+        <div>
+
+            <span>
+                CLASSES
+            </span>
+
+            <h3>
+                {{ dataset.classes }}
+            </h3>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     EVALUATION SETTINGS
+========================================= -->
+
+<section class="control-panel">
+
+
+    <div>
+
+        <span class="section-label">
+            CONFIGURATION
+        </span>
+
+        <h2>
+            Evaluation Settings
+        </h2>
+
+        <p>
+
+            Configure the number of folds and
+            choose the machine learning models
+            to evaluate.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="controls">
+
+
+        <div class="select-wrapper">
+
+            <label for="kValue">
+                Number of Folds
+            </label>
+
+            <select id="kValue">
+
+                <option value="3">
+                    3 Folds
+                </option>
+
+                <option value="5" selected>
+                    5 Folds
+                </option>
+
+                <option value="10">
+                    10 Folds
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <button
+            id="runButton"
+            class="primary-button"
+            onclick="runEvaluation()">
+
+            <span>
+                ▶
+            </span>
+
+            Run Cross-Validation
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     CSV DATASET UPLOAD
+========================================= -->
+
+<section class="upload-section">
+
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="section-label">
+                CUSTOM DATASET
+            </span>
+
+            <h2>
+                Upload CSV Dataset
+            </h2>
+
+            <p>
+
+                Upload your own classification dataset
+                and evaluate machine learning models
+                using K-Fold Cross-Validation.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="upload-card">
+
+
+        <!-- File Upload -->
+
+        <div class="upload-box">
+
+            <label for="csvFile">
+
+                <span class="upload-icon">
+                    ↑
+                </span>
+
+                <strong>
+                    Select CSV Dataset
+                </strong>
+
+                <small>
+                    Only .csv files are supported
+                </small>
+
+            </label>
+
+
+            <input
+                type="file"
+                id="csvFile"
+                accept=".csv">
+
+        </div>
+
+
+
+        <!-- Dataset Information -->
+
+        <div
+            id="csvInfo"
+            class="csv-info hidden">
+
+
+            <div class="csv-info-item">
+
+                <span>
+                    Dataset
+                </span>
+
+                <strong id="csvFileName">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="csv-info-item">
+
+                <span>
+                    Samples
+                </span>
+
+                <strong id="csvSamples">
+                    —
+                </strong>
+
+            </div>
+
+
+
+            <div class="csv-info-item">
+
+                <span>
+                    Features
+                </span>
+
+                <strong id="csvFeatures">
+                    —
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Target Column -->
+
+        <div
+            id="targetSection"
+            class="target-section hidden">
+
+
+            <label for="targetColumn">
+
+                Target Column
+
+            </label>
+
+
+            <select id="targetColumn">
+
+                <option value="">
+
+                    Select target column
+
+                </option>
+
+            </select>
+
+
+            <p>
+
+                Select the column that contains
+                the class/output labels.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             DATASET PREVIEW
+        ====================================== -->
+
+        <div
+            id="datasetPreview"
+            class="dataset-preview hidden">
+
+
+            <div class="preview-header">
+
+
+                <div>
+
+                    <span class="section-label">
+
+                        DATA PREVIEW
+
+                    </span>
+
+
+                    <h3>
+
+                        Uploaded Dataset
+
+                    </h3>
+
+
+                    <p>
+
+                        Preview of the first five
+                        rows of your dataset.
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="preview-table-container">
+
+
+                <table
+                    id="previewTable"
+                    class="preview-table">
+
+
+                    <thead
+                        id="previewHead">
+
+                    </thead>
+
+
+                    <tbody
+                        id="previewBody">
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             CSV EVALUATE BUTTON
+        ====================================== -->
+
+        <button
+            id="evaluateCsvBtn"
+            class="primary-button hidden">
+
+            Evaluate Uploaded Dataset
+
+        </button>
+
+
+
+        <!-- Upload Status -->
+
+        <div
+            id="uploadStatus"
+            class="upload-status">
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     MODEL SELECTION
+========================================= -->
+
+<section class="model-selection">
+
+
+    <div class="section-heading">
+
+
+        <div>
+
+            <span class="section-label">
+                MODEL SELECTION
+            </span>
+
+            <h2>
+                Choose ML Models
+            </h2>
+
+            <p>
+                Select the models you want to compare.
+            </p>
+
+        </div>
+
+
+        <button
+            class="select-all-btn"
+            onclick="selectAllModels()">
+
+            Select All
+
+        </button>
+
+
+    </div>
+
+
+
+    <div class="model-grid">
+
+
+        {% for model in models %}
+
+        <label class="model-option">
+
+
+            <input
+                type="checkbox"
+                name="model"
+                value="{{ model }}"
+                checked>
+
+
+            <span class="model-check">
+
+                ✓
+
+            </span>
+
+
+            <span class="model-text">
+
+                {{ model }}
+
+            </span>
+
+
+        </label>
+
+        {% endfor %}
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     LOADING SECTION
+========================================= -->
+
+<section
+    id="loading"
+    class="loading hidden">
+
+
+    <div class="spinner"></div>
+
+
+    <div>
+
+        <strong>
+            Running Cross-Validation
+        </strong>
+
+        <p>
+
+            Evaluating selected machine
+            learning models...
+
+        </p>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     BEST MODEL
+========================================= -->
+
+<section
+    id="bestModelSection"
+    class="best-model hidden">
+
+
+    <div class="best-model-header">
+
+
+        <div>
+
+            <span class="section-label">
+                BEST PERFORMING MODEL
+            </span>
+
+            <h2>
+                Evaluation Result
+            </h2>
+
+        </div>
+
+
+        <div class="trophy">
+            ★
+        </div>
+
+
+    </div>
+
+
+
+    <div class="best-model-content">
+
+
+        <div class="best-model-name">
+
+            <span>
+                BEST MODEL
+            </span>
+
+            <h1 id="bestModel">
+                —
+            </h1>
+
+        </div>
+
+
+
+        <div class="accuracy-box">
+
+            <span>
+                AVERAGE ACCURACY
+            </span>
+
+            <strong id="bestAccuracy">
+                —
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     PERFORMANCE METRICS
+========================================= -->
+
+<section
+    id="metricsSection"
+    class="metrics-section hidden">
+
+
+    <div class="section-heading">
+
+
+        <div>
+
+            <span class="section-label">
+                DETAILED EVALUATION
+            </span>
+
+            <h2>
+                Performance Metrics
+            </h2>
+
+            <p>
+
+                Detailed classification performance
+                of the selected best model.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- Metric Cards -->
+
+    <div class="metrics-grid">
+
+
+        <!-- Accuracy -->
+
+        <div class="metric-card">
+
+
+            <div class="metric-icon">
+                A
+            </div>
+
+
+            <div class="metric-content">
+
+                <span>
+                    ACCURACY
+                </span>
+
+                <strong id="metricAccuracy">
+                    —
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Precision -->
+
+        <div class="metric-card">
+
+
+            <div class="metric-icon">
+                P
+            </div>
+
+
+            <div class="metric-content">
+
+                <span>
+                    PRECISION
+                </span>
+
+                <strong id="metricPrecision">
+                    —
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Recall -->
+
+        <div class="metric-card">
+
+
+            <div class="metric-icon">
+                R
+            </div>
+
+
+            <div class="metric-content">
+
+                <span>
+                    RECALL
+                </span>
+
+                <strong id="metricRecall">
+                    —
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- F1 Score -->
+
+        <div class="metric-card">
+
+
+            <div class="metric-icon">
+                F1
+            </div>
+
+
+            <div class="metric-content">
+
+                <span>
+                    F1 SCORE
+                </span>
+
+                <strong id="metricF1">
+                    —
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- Confusion Matrix -->
+
+    <div class="confusion-card">
+
+
+        <div class="chart-header">
+
+
+            <div>
+
+                <h3>
+                    Confusion Matrix
+                </h3>
+
+                <p id="confusionSubtitle">
+
+                    Classification prediction results
+
+                </p>
+
+            </div>
+
+
+            <span class="chart-icon">
+                CM
+            </span>
+
+
+        </div>
+
+
+
+        <div
+            id="confusionMatrix"
+            class="confusion-matrix">
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     RESULTS TABLE
+========================================= -->
+
+<section
+    id="resultsSection"
+    class="results-section hidden">
+
+
+    <div class="section-heading">
+
+
+        <div>
+
+            <span class="section-label">
+                PERFORMANCE ANALYSIS
+            </span>
+
+            <h2>
+                Model Performance
+            </h2>
+
+            <p>
+
+                Accuracy and variation across
+                validation folds.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="table-container">
+
+
+        <table>
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        #
+                    </th>
+
+                    <th>
+                        Machine Learning Model
+                    </th>
+
+                    <th>
+                        Average Accuracy
+                    </th>
+
+                    <th>
+                        Standard Deviation
+                    </th>
+
+                    <th>
+                        Performance
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+
+            <tbody id="resultsTable">
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     CHARTS
+========================================= -->
+
+<section
+    id="chartsSection"
+    class="charts-section hidden">
+
+
+    <div class="section-heading">
+
+
+        <div>
+
+            <span class="section-label">
+                VISUAL ANALYTICS
+            </span>
+
+            <h2>
+                Performance Visualization
+            </h2>
+
+            <p>
+
+                Compare model accuracy and
+                fold-wise performance.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="charts-grid">
+
+
+        <!-- Accuracy Chart -->
+
+        <div class="chart-card">
+
+
+            <div class="chart-header">
+
+
+                <div>
+
+                    <h3>
+                        Average Accuracy
+                    </h3>
+
+                    <p>
+                        Model comparison
+                    </p>
+
+                </div>
+
+
+                <span class="chart-icon">
+                    %
+                </span>
+
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="accuracyChart"></canvas>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Fold Chart -->
+
+        <div class="chart-card">
+
+
+            <div class="chart-header">
+
+
+                <div>
+
+                    <h3>
+                        Fold-wise Accuracy
+                    </h3>
+
+                    <p id="foldChartSubtitle">
+
+                        Best model performance
+
+                    </p>
+
+                </div>
+
+
+                <span class="chart-icon">
+                    K
+                </span>
+
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="foldChart"></canvas>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     ABOUT K-FOLD
+========================================= -->
+
+<section class="about-section">
+
+
+    <div class="about-content">
+
+
+        <span class="section-label">
+            ABOUT THE METHOD
+        </span>
+
+
+        <h2>
+            What is K-Fold Cross-Validation?
+        </h2>
+
+
+        <p>
+
+            K-Fold Cross-Validation is a model
+            evaluation technique that divides
+            a dataset into K equally sized
+            subsets called folds. The model is
+            trained on K-1 folds and tested on
+            the remaining fold. This process is
+            repeated K times so that every fold
+            is used for testing exactly once.
+
+        </p>
+
+
+        <p>
+
+            The final performance is calculated
+            by averaging the accuracy obtained
+            from all folds. This provides a more
+            reliable estimate of model performance
+            than using a single train-test split.
+
+        </p>
+
+
+    </div>
+
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <div>
+
+                <h3>
+                    Split
+                </h3>
+
+                <p>
+                    Divide the dataset into K folds.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <div>
+
+                <h3>
+                    Train
+                </h3>
+
+                <p>
+                    Train the model using K-1 folds.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <div>
+
+                <h3>
+                    Validate
+                </h3>
+
+                <p>
+                    Test the model on the remaining fold.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <div class="step-number">
+                04
+            </div>
+
+            <div>
+
+                <h3>
+                    Average
+                </h3>
+
+                <p>
+                    Calculate the average performance.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================================
+     PROJECT INFORMATION
+========================================= -->
+
+<section class="project-info">
+
+
+    <div class="project-info-card">
+
+
+        <span class="section-label">
+            PROJECT
+        </span>
+
+
+        <h2>
+
+            Comparative Evaluation of
+            Machine Learning Models Using
+            K-Fold Cross-Validation
+
+        </h2>
+
+
+        <p>
+
+            This application provides an
+            interactive environment for evaluating
+            and comparing different classification
+            algorithms using K-Fold
+            Cross-Validation.
+
+        </p>
+
+
+    </div>
+
+
+
+    <div class="technology-list">
+
+
+        <div class="technology">
+
+            <strong>
+                Python
+            </strong>
+
+            <span>
+                Programming
+            </span>
+
+        </div>
+
+
+
+        <div class="technology">
+
+            <strong>
+                Flask
+            </strong>
+
+            <span>
+                Web Backend
+            </span>
+
+        </div>
+
+
+
+        <div class="technology">
+
+            <strong>
+                Scikit-Learn
+            </strong>
+
+            <span>
+                Machine Learning
+            </span>
+
+        </div>
+
+
+
+        <div class="technology">
+
+            <strong>
+                Chart.js
+            </strong>
+
+            <span>
+                Visualization
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+</main>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="footer">
+
+
+    <div class="footer-container">
+
+
+        <div>
+
+            <strong>
+                K-Fold ML Lab
+            </strong>
+
+            <p>
+                Machine Learning Model Evaluation Platform
+            </p>
+
+        </div>
+
+
+        <div class="footer-right">
+
+            <span>
+
+                Built with Python + Flask
+                + Scikit-Learn
+
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+</footer>
+
+
+
+<!-- =========================================
+     CHART.JS
+========================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
+
+
+
+<!-- =========================================
+     MAIN JAVASCRIPT
+========================================= -->
+
+<script
+    src="{{ url_for('static', filename='js/script.js') }}">
+</script>
+
+
+</body>
+
+</html>
